@@ -18,7 +18,7 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 		input = body
 	}
 
-	moonFuncURL := "http://178.128.128.111:8080/function/sriveros95/moon-phase"
+	moonFuncURL := "http://178.128.128.111:8080/function/ofcommunity/sriveros95-openfaas-functions-moon-phase"
 	resp, err := http.Get(moonFuncURL)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
