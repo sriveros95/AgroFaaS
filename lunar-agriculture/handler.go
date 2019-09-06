@@ -18,13 +18,13 @@ func Handle(req []byte) string {
 		earthTime, err = time.Parse(time.RFC3339, string(req))
 		if err != nil {
 			// todo log error
-			return "Failed"
+			return "Failed time.Parse"
 		}
 	}
 	resp, err := http.Post(moonFuncURL, "string", bytes.NewReader([]byte(earthTime.Format(time.RFC3339))))
 	if err != nil {
-		// todo log error
-		return "Failed"
+		fmt.Println(err)
+		return "Failed http.Post"
 	}
 	defer resp.Body.Close()
 	moonString, err := ioutil.ReadAll(resp.Body)
