@@ -1,12 +1,10 @@
 package function
 
 import (
-	"bytes"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strings"
-	"time"
 )
 
 func Handle(w http.ResponseWriter, r *http.Request) {
@@ -21,21 +19,10 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 	}
 
 	moonFuncURL := "http://127.0.0.1:8080/function/sriveros95/moon-phase"
-	earthTime := time.Now()
-	var err interface{}
-	if len(string(input)) != 0 {
-		earthTime, err = time.Parse(time.RFC3339, string(input))
-		if err != nil {
-			// todo log error
-			w.WriteHeader(http.StatusBadRequest)
-			w.Write([]byte("Failed lunar-agriculture time.Parse"))
-			return
-		}
-	}
-	resp, err := http.Post(moonFuncURL, "string", bytes.NewReader([]byte(earthTime.Format(time.RFC3339))))
+	resp, err := http.Get(moonFuncURL)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Failed http.Post"))
+		w.Write([]byte("Failed http.Get"))
 		return
 	}
 	defer resp.Body.Close()
