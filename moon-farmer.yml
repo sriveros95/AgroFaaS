@@ -1,0 +1,9 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://178.128.128.111:8080
+functions:
+  moon-farmer:
+    lang: golang-middleware
+    handler: ./moon-farmer
+    image: sriveros95/moon-farmer:latest
