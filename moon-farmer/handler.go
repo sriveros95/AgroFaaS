@@ -63,7 +63,7 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 
 	resBody, err := json.Marshal(response)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		fmt.Println(err)
 		return
 	}
 
