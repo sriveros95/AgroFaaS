@@ -56,14 +56,14 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 		Headers     map[string][]string `json:"headers"`
 		Environment []string            `json:"environment"`
 	}{
-		Payload:     string(moonString),
+		Payload:     string(input),
 		Headers:     r.Header,
 		Environment: os.Environ(),
 	}
 
 	resBody, err := json.Marshal(response)
 	if err != nil {
-		fmt.Println(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
