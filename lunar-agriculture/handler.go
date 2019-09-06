@@ -11,7 +11,7 @@ import (
 
 // Handle a serverless request
 func Handle(req []byte) string {
-	moonFuncURL := "http://178.128.128.111:8080/function/sriveros95/moon-phase"
+	moonFuncURL := "http://127.0.0.1:8080/function/sriveros95/moon-phase"
 	earthTime := time.Now()
 	var err interface{}
 	if len(string(req)) != 0 {
