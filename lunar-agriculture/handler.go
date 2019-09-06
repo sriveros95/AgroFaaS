@@ -18,7 +18,7 @@ func Handle(req []byte) string {
 		earthTime, err = time.Parse(time.RFC3339, string(req))
 		if err != nil {
 			// todo log error
-			return "Failed time.Parse"
+			return "Failed lunar-agriculture time.Parse"
 		}
 	}
 	resp, err := http.Post(moonFuncURL, "string", bytes.NewReader([]byte(earthTime.Format(time.RFC3339))))

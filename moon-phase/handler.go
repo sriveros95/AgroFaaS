@@ -18,7 +18,7 @@ func Handle(req []byte) string {
 		earthTime, err = time.Parse(time.RFC3339, string(req))
 		if err != nil {
 			// todo log error
-			return "Failed"
+			return "Failed moon-phase time.Parse"
 		}
 	}
 	var ages = [...]int32{18, 0, 11, 22, 3, 14, 25, 6, 17, 28, 9, 20, 1, 12, 23, 4, 15, 26, 7}
