@@ -7,3 +7,7 @@ functions:
     lang: go
     handler: ./moon-phase
     image: sriveros95/moon-phase:latest
+  lunar-agriculture:
+    lang: go
+    handler: ./lunar-agriculture
+    image: sriveros95/lunar-agriculture:latest

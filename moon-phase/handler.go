@@ -1,4 +1,4 @@
-// Adaptadion of vegaseat's "Moon Phase at a given date (Python)" (02may2013)
+// Adaptation of vegaseat's "Moon Phase at a given date (Python)" (02may2013)
 // https://www.daniweb.com/programming/software-development/code/453788/moon-phase-at-a-given-date-python
 
 package function
