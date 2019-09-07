@@ -29,7 +29,33 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 	moonString, err := ioutil.ReadAll(resp.Body)
 	fmt.Println(moonString)
 	moonData := strings.Split(string(moonString), ", ")
+	gardenString := "failed to process moon data"
+	if len(moonData) == 3 {
+		switch moonData[1] {
+		case " new (totally dark)", " in its first quarter (increasing to full)":
+			gardenString = "'growth' season, considered fertile and wet. All plants producing above ground growth, fruits, or flowers benefit from a waxing moon planting."
+
+		case " waxing gibbous (increasing to full)":
+			gardenString = "The waxing period tends to be a very productive time of period for not only planters, but all of society as a whole. Sow/Plant: Above ground annuals, especially Fruit plants also Cereals and Flowers"
+
+		case " waxing crescent (increasing to full)":
+			gardenString = "Sow/Plant: Above ground annuals, especially Leaf plants also Cereals, Herbs, Cucumbers"
+
+		case " full (full light)":
+			gardenString = "Time to rest, celebrate and meditate"
+
+		case " waning gibbous (decreasing from full)", " in its last quarter (decreasing from full)":
+			gardenString = "Sow/Plant: Below ground plants, especially Root plants, Plant trees, shrubs and perennials. Harvest all crops, Fertilize, Transplant, Mow lawns & Prune"
+
+		case " waning crescent (decreasing from full)":
+			gardenString = "Barren phase: Time to rest. Avoid seed sowing, Harvest and store crops, Fertilize, Transplant, Destroy weed, Mow lawns & Prune"
+
+		default:
+			gardenString = "Unknown phase"
+		}
+	}
 
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(fmt.Sprintf("Hello world, input was: %s \n MoonString: %s \n %v", string(input), moonString, moonData)))
+	w.Write([]byte(string(moonString)))
+	w.Write([]byte(string(gardenString)))
 }
