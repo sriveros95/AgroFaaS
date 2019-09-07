@@ -47,8 +47,11 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 	gardenString := "failed to process moon data"
 	if len(moonData) == 3 {
 		switch moonData[1] {
-		case "new (totally dark)", "in its first quarter (increasing to full)":
-			gardenString = "'growth' season, considered fertile and wet. All plants producing above ground growth, fruits, or flowers benefit from a waxing moon planting."
+		case "new (totally dark)":
+			gardenString = "'Growth' season (is coming). Rest, Celebrate, Meditate."
+
+		case "in its first quarter (increasing to full)":
+			gardenString = "'Growth' season, Sow/Plant: Above ground annuals, especially Leaf plants also Cereals, Herbs, Cucumbers - Mow lawns (to increase growth) - Graft & Prune (to increase growth) All plants producing above ground growth, fruits, or flowers benefit from a waxing moon planting."
 
 		case "waxing gibbous (increasing to full)":
 			gardenString = "The waxing period tends to be a very productive time of period for not only planters, but all of society as a whole. Sow/Plant: Above ground annuals, especially Fruit plants also Cereals and Flowers"
