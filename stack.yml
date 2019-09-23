@@ -1,10 +1,10 @@
 version: 1.0
 provider:
   name: openfaas
-  gateway: http://178.128.128.111:8080
+  gateway: http://gateway.openfaas:8080
 functions:
   moon-phase:
-    lang: go
+    lang: golang-middleware
     handler: ./moon-phase
     image: sriveros95/moon-phase:latest
   moon-farmer:

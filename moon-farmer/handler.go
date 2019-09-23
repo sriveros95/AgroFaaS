@@ -2,21 +2,21 @@ package function
 
 import (
 	"bytes"
-	"fmt"
+	"encoding/json"
 	"io/ioutil"
 	"net/http"
-	"strings"
 	"time"
 )
 
+// Handle Moon Farmer Request
 func Handle(w http.ResponseWriter, r *http.Request) {
 	var input []byte
 
+	farmingData := FarmingData
+
 	if r.Body != nil {
 		defer r.Body.Close()
-
 		body, _ := ioutil.ReadAll(r.Body)
-
 		input = body
 	}
 
@@ -27,53 +27,77 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 		earthTime, err = time.Parse(time.RFC3339, string(input))
 		if err != nil {
 			// todo log error
-			return
 			w.WriteHeader(http.StatusBadRequest)
-			w.Write([]byte("Failed http.Post"))
 			return
 		}
 	}
+
 	resp, err := http.Post(moonFuncURL, "string", bytes.NewReader([]byte(earthTime.Format(time.RFC3339))))
 	//resp, err := http.Get(moonFuncURL)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Failed http.Get"))
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("Failed http.post"))
 		return
 	}
 	defer resp.Body.Close()
-	moonString, err := ioutil.ReadAll(resp.Body)
-	fmt.Println(moonString)
-	moonData := strings.Split(string(moonString), ", ")
-	gardenString := "failed to process moon data"
-	if len(moonData) == 3 {
-		switch moonData[1] {
-		case "new (totally dark)":
-			gardenString = "'Growth' season (is coming). Rest, Celebrate, Meditate."
 
-		case "in its first quarter (increasing to full)":
-			gardenString = "'Growth' season, Sow/Plant: Above ground annuals, especially Leaf plants also Cereals, Herbs, Cucumbers - Mow lawns (to increase growth) - Graft & Prune (to increase growth) All plants producing above ground growth, fruits, or flowers benefit from a waxing moon planting."
+	decoder := json.NewDecoder(resp.Body)
 
-		case "waxing gibbous (increasing to full)":
-			gardenString = "The waxing period tends to be a very productive time of period for not only planters, but all of society as a whole. Sow/Plant: Above ground annuals, especially Fruit plants also Cereals and Flowers"
+	moonData := MoonData
+	err = decoder.Decode(&moonData)
 
-		case "waxing crescent (increasing to full)":
-			gardenString = "Sow/Plant: Above ground annuals, especially Leaf plants also Cereals, Herbs, Cucumbers"
+	if err != nil {
+		panic(err)
+	}
 
-		case "full (full light)":
-			gardenString = "Time to rest, celebrate and meditate"
+	json.NewDecoder(resp.Body).Decode(&moonData)
+	farmingData.Date = moonData.Date
+	farmingData.MoonString = moonData.Text
+	if len(moonData.Code) == 2 {
+		switch moonData.Code {
+		case "NW":
+			// "new (totally dark)":
+			farmingData.FarmingString = "'Growth' season is coming!. Rest, Celebrate, Meditate."
 
-		case "waning gibbous (decreasing from full)", "in its last quarter (decreasing from full)":
-			gardenString = "Sow/Plant: Below ground plants, especially Root plants, Plant trees, shrubs and perennials. Harvest all crops, Fertilize, Transplant, Mow lawns & Prune"
+		case "FQ":
+			// "in its first quarter (increasing to full)":
+			farmingData.FarmingString = "'Growth' season, - Mow lawns (to increase growth) - Graft & Prune (to increase growth) All plants producing above ground growth, fruits, or flowers benefit from a waxing moon planting."
+			farmingData.PlantingTime = true
+			farmingData.What2Plant = "Above ground annuals, especially Leaf plants also Cereals, Herbs, Cucumbers"
 
-		case "waning crescent (decreasing from full)":
-			gardenString = "Barren phase: Time to rest. Avoid seed sowing, Harvest and store crops, Fertilize, Transplant, Destroy weed, Mow lawns & Prune"
+		case "XG":
+			// "waxing gibbous (increasing to full)":
+			farmingData.FarmingString = "The waxing period tends to be a very productive time of period for not only planters, but all of society as a whole."
+			farmingData.PlantingTime = true
+			farmingData.What2Plant = "Above ground annuals, especially Leaf plants also Cereals, Herbs, Cucumbers"
+
+		case "XC":
+			// "waxing crescent (increasing to full)":
+			farmingData.FarmingString = "The waxing period tends to be a very productive time of period for not only planters, but all of society as a whole."
+			farmingData.What2Plant = "Above ground annuals, especially Leaf plants also Cereals, Herbs, Cucumbers"
+			farmingData.PlantingTime = true
+
+		case "FL":
+			// "full (full light)":
+			farmingData.FarmingString = "Time to rest, celebrate and meditate"
+
+		case "NG":
+			// "waning gibbous (decreasing from full)", "in its last quarter (decreasing from full)":
+			farmingData.FarmingString = "Harvest all crops, Fertilize, Transplant, Mow lawns & Prune"
+			farmingData.PlantingTime = true
+			farmingData.What2Plant = "Below ground plants, especially Root plants, Plant trees, shrubs and perennials."
+
+		case "NC":
+			// "waning crescent (decreasing from full)":
+			farmingData.FarmingString = "Barren phase: Time to rest. Avoid seed sowing. Harvest and store crops, Fertilize, Transplant, Destroy weed, Mow lawns & Prune"
 
 		default:
-			gardenString = "Unknown phase"
+			farmingData.FarmingString = "Unknown phase"
 		}
 	}
 
+	//return json
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(string(moonString)))
-	w.Write([]byte(string(gardenString)))
+	json.NewEncoder(w).Encode(farmingData)
 }

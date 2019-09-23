@@ -4,44 +4,53 @@
 package function
 
 import (
-	"fmt"
+	"encoding/json"
+	"io/ioutil"
 	"math"
+	"net/http"
 	"time"
 )
 
 // Handle a serverless request
-func Handle(req []byte) string {
+func Handle(w http.ResponseWriter, r *http.Request) {
+	var input []byte
 
-	earthTime := time.Now()
+	moonData := MoonData
+
+	if r.Body != nil {
+		defer r.Body.Close()
+		body, _ := ioutil.ReadAll(r.Body)
+		input = body
+	}
+
+	moonData.Date = time.Now()
 	var err interface{}
-	if len(string(req)) != 0 {
-		earthTime, err = time.Parse(time.RFC3339, string(req))
+
+	if len(string(input)) != 0 {
+		moonData.Date, err = time.Parse(time.RFC3339, string(input))
 		if err != nil {
 			// todo log error
-			return "Failed moon-phase time.Parse"
+			w.WriteHeader(http.StatusBadRequest)
+			return
 		}
 	}
-	var ages = [...]int32{18, 0, 11, 22, 3, 14, 25, 6, 17, 28, 9, 20, 1, 12, 23, 4, 15, 26, 7}
-	var offsets = [...]int32{-1, 1, 0, 1, 2, 3, 4, 5, 7, 7, 9, 9}
-	var descriptions = [...]string{"new (totally dark)",
-		"waxing crescent (increasing to full)",
-		"in its first quarter (increasing to full)",
-		"waxing gibbous (increasing to full)",
-		"full (full light)",
-		"waning gibbous (decreasing from full)",
-		"in its last quarter (decreasing from full)",
-		"waning crescent (decreasing from full)"}
-	var months = [...]string{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}
 
 	var (
-		day   int32
-		month int32
-		year  int32
+		ages         = [...]int32{18, 0, 11, 22, 3, 14, 25, 6, 17, 28, 9, 20, 1, 12, 23, 4, 15, 26, 7}
+		offsets      = [...]int32{-1, 1, 0, 1, 2, 3, 4, 5, 7, 7, 9, 9}
+		descriptions = [...]string{"new (totally dark)",
+			"waxing crescent (increasing to full)",
+			"in its first quarter (increasing to full)",
+			"waxing gibbous (increasing to full)",
+			"full (full light)",
+			"waning gibbous (decreasing from full)",
+			"in its last quarter (decreasing from full)",
+			"waning crescent (decreasing from full)"}
+		codes = [...]string{"NW", "XC", "FQ", "XG", "FL", "NG", "LQ", "NC"}
+		day   = int32(moonData.Date.Day())
+		year  = int32(moonData.Date.Year())
+		month = int32(moonData.Date.Month())
 	)
-
-	day = int32(earthTime.Day())
-	year = int32(earthTime.Year())
-	month = int32(earthTime.Month())
 
 	if day == 31 {
 		day = 1
@@ -56,18 +65,16 @@ func Handle(req []byte) string {
 	if index > 7 {
 		index = 7
 	}
-	status := descriptions[index]
+	moonData.Text = descriptions[index]
+	moonData.Code = codes[index]
 	// light should be 100% 15 days into phase
-	var light float64
-	light = float64(2 * daysIntoPhase * 100 / 29)
-	if light > 100 {
-		light = math.Abs(light - 200)
+	moonData.Light = float64(2 * daysIntoPhase * 100 / 29)
+	if moonData.Light > 100 {
+		moonData.Light = math.Abs(moonData.Light - 200)
 	}
 
-	dateFstr := fmt.Sprintf("%d %s %d", day, months[month-1], year)
-
-	response := fmt.Sprintf("%v, %v, %v", dateFstr, status, light)
-
-	//fmt.Println(response)
-	return (response)
+	//return json
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(moonData)
 }
