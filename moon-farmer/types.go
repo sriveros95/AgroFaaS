@@ -14,6 +14,7 @@ var MoonData struct {
 var FarmingData struct {
 	Date          time.Time `json:"date"`
 	MoonString    string    `json:"moonString"`
+	MoonLight     float64   `json:"moonLight"`
 	FarmingString string    `json:"farmingString"`
 	PlantingTime  bool      `json:"plantingTime"`
 	What2Plant    string    `json:"what2Plant"`

@@ -53,15 +53,16 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(resp.Body).Decode(&moonData)
 	farmingData.Date = moonData.Date
 	farmingData.MoonString = moonData.Text
+	farmingData.MoonLight = moonData.Light
 	if len(moonData.Code) == 2 {
 		switch moonData.Code {
 		case "NW":
 			// "new (totally dark)":
-			farmingData.FarmingString = "'Growth' season is coming!. Rest, Celebrate, Meditate."
+			farmingData.FarmingString = "Growth season is coming!. Rest, Celebrate, Meditate."
 
 		case "FQ":
 			// "in its first quarter (increasing to full)":
-			farmingData.FarmingString = "'Growth' season, - Mow lawns (to increase growth) - Graft & Prune (to increase growth) All plants producing above ground growth, fruits, or flowers benefit from a waxing moon planting."
+			farmingData.FarmingString = "Growth season, - Mow lawns (to increase growth) - Graft & Prune (to increase growth) All plants producing above ground growth, fruits, or flowers benefit from a waxing moon planting."
 			farmingData.PlantingTime = true
 			farmingData.What2Plant = "Above ground annuals, especially Leaf plants also Cereals, Herbs, Cucumbers"
 

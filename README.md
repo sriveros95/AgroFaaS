@@ -1,6 +1,13 @@
 openFaaS for Agriculture
 ========================
-FaaS hosted in OpenFaaS Community Cluster
+We are quite a few living in the same ship, mother earth. Soon we'll be 8 Billion! [World Population Clock](https://www.worldometers.info/world-population)
+
+Inorganic practices like pesticides, chemical fertilizers, and inefficient transportation means among other factors make growing our own organic food a better alternative.
+
+AgroFaaS is here to help and make it fun experience
+(name is a first option/draft)
+
+FaaS are hosted in OpenFaaS Community Cluster
 
 - [moon-phase](https://sriveros95.o6s.io/moon-phase)
 
@@ -9,6 +16,16 @@ FaaS hosted in OpenFaaS Community Cluster
 ## moon-phase
 Get the phase of the moon
 
+Code | Phase
+-----|-------------
+NW   | 🌑 New Moon
+FQ   | 🌒 First Quarter
+XG   | 🌓 Waxing Gibbous
+XC   | 🌒 Waxing Crescent
+FL   | 🌕 Full Moon
+NG   | 🌖 Waning Gibbous
+NC   | 🌘 Waning Crescent
+
 ## moon-farmer
 Get farming tips according to the phase of the moon
 
@@ -16,9 +33,12 @@ Get farming tips according to the phase of the moon
 //Todo
 Nuxt Farmer Interface
 
+## feed-the-humans
+Calculate based on differet diet examples how many of each ingredient are needed to feed the current world population.
+
 ## Ideas
 - Plant Info & Tips (file)DB
-- Calculations / Farming Plan
+- Farming Calculations / Plan
 - Plant/Animal Tracking
 
 ## Reference
