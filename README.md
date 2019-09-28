@@ -19,11 +19,12 @@ Get the phase of the moon
 Code | Phase
 -----|-------------
 NW   | 🌑 New Moon
+XC   | 🌒 Waxing Crescent
 FQ   | 🌓 First Quarter
 XG   | 🌔 Waxing Gibbous
-XC   | 🌒 Waxing Crescent
 FL   | 🌕 Full Moon
 NG   | 🌖 Waning Gibbous
+LQ   | 🌗 Last Quarter
 NC   | 🌘 Waning Crescent
 
 ## moon-farmer

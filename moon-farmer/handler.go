@@ -60,15 +60,15 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 			// "new (totally dark)":
 			farmingData.FarmingString = "Growth season is coming!. Rest, Celebrate, Meditate."
 
-		case "FQ":
-			// "in its first quarter (increasing to full)":
-			farmingData.FarmingString = "Growth season, - Mow lawns (to increase growth) - Graft & Prune (to increase growth) All plants producing above ground growth, fruits, or flowers benefit from a waxing moon planting."
-			farmingData.PlantingTime = true
-			farmingData.What2Plant = "Above ground annuals, especially Leaf plants also Cereals, Herbs, Cucumbers"
-
 		case "XG":
 			// "waxing gibbous (increasing to full)":
 			farmingData.FarmingString = "The waxing period tends to be a very productive time of period for not only planters, but all of society as a whole."
+			farmingData.PlantingTime = true
+			farmingData.What2Plant = "Above ground annuals, especially Leaf plants also Cereals, Herbs, Cucumbers"
+
+		case "FQ":
+			// "in its first quarter (increasing to full)":
+			farmingData.FarmingString = "Growth season, - Mow lawns (to increase growth) - Graft & Prune (to increase growth) All plants producing above ground growth, fruits, or flowers benefit from a waxing moon planting."
 			farmingData.PlantingTime = true
 			farmingData.What2Plant = "Above ground annuals, especially Leaf plants also Cereals, Herbs, Cucumbers"
 
@@ -87,6 +87,10 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 			farmingData.FarmingString = "Harvest all crops, Fertilize, Transplant, Mow lawns & Prune"
 			farmingData.PlantingTime = true
 			farmingData.What2Plant = "Below ground plants, especially Root plants, Plant trees, shrubs and perennials."
+
+		case "LQ":
+			// "in its last quarter (decreasing from full)":
+			farmingData.FarmingString = "Harvest all crops, Fertilize, Transplant, Mow lawns & Prune"
 
 		case "NC":
 			// "waning crescent (decreasing from full)":
