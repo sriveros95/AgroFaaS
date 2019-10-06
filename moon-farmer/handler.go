@@ -54,6 +54,7 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 	farmingData.Date = moonData.Date
 	farmingData.MoonString = moonData.Text
 	farmingData.MoonLight = moonData.Light
+	farmingData.MoonCode = moonData.Code
 	if len(moonData.Code) == 2 {
 		switch moonData.Code {
 		case "NW":

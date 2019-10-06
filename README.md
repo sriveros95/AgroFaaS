@@ -2,7 +2,7 @@ openFaaS for Agriculture
 ========================
 We are quite a few living in the same ship, mother earth. Soon we'll be 8 Billion! [World Population Clock](https://www.worldometers.info/world-population)
 
-Inorganic practices like pesticides, chemical fertilizers, and inefficient transportation means among other factors make growing our own organic food a better alternative.
+Inorganic practices like pesticides, chemical fertilizers, and inefficient transportation means among other factors make growing our own organic food a better alternative
 
 AgroFaaS is here to help and make it fun experience
 (name is a first option/draft)
@@ -35,7 +35,7 @@ Get farming tips according to the phase of the moon
 Nuxt Farmer Interface
 
 ## feed-the-humans
-Calculate based on differet diet examples how many of each ingredient are needed to feed the current world population.
+Calculate based on differet diet examples how much of each ingredient are needed to feed the current world population
 
 ## Ideas
 - Plant Info & Tips (file)DB

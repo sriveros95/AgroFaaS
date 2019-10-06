@@ -11,3 +11,7 @@ functions:
     lang: golang-middleware
     handler: ./moon-farmer
     image: sriveros95/moon-farmer:latest
+  agro-ui:
+    lang: dockerfile
+    handler: ./agro-ui
+    image: agro-ui:latest

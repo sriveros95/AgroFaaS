@@ -1,0 +1,22 @@
+{
+    "name": "Arepa de Maiz con Huevo Revuelto y Maiz",
+    "description": "Scrambled Egg with Corn on top of a Corn Flour Arepa",
+    "diet_tags": ["latam", "breakfast", "vegetarian"],
+    "meal_numbers": [1,2],
+    "ingredients":[
+        {
+            "name": "Arepa de Maiz",
+            "size": "md",
+            "quantity": 1
+        },
+        {
+            "name": "Egg",
+            "quantity": 2
+        },
+        {
+            "name": "Corn",
+            "portions": 0.5
+        }
+    ],
+    "portions": 1
+}
