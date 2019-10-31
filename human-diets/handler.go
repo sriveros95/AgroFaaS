@@ -14,7 +14,7 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 		reqIn CalculationRequest
 	)
 
-	err := json.NewDecoder(r.Body).Decode(reqIn)
+	err := json.NewDecoder(r.Body).Decode(&reqIn)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return

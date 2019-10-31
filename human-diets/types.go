@@ -2,8 +2,8 @@ package function
 
 // CalculationRequest defines the request for a calc experiment
 type CalculationRequest struct {
-	Recipe   string  `json:"recipe"`
-	Quantity float64 `json:"quantity"`
+	Recipe   string
+	Quantity float64
 }
 
 // CalculationResult structures a json response for a basic calc. experiment
