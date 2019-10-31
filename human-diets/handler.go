@@ -4,17 +4,15 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/spf13/viper"
 )
 
 // Handle Moon Farmer Request
 func Handle(w http.ResponseWriter, r *http.Request) {
-	var (
-		reqIn CalculationRequest
-	)
-
-	err := json.NewDecoder(r.Body).Decode(&reqIn)
+	r_receta := r.FormValue("recipe")
+	rCantidad, err := strconv.ParseFloat(r.FormValue("quantity"), 64)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
@@ -40,7 +38,7 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 	receta.SetDefault("ContentDir", "data/")
 	receta.AddConfigPath("data/")
 	receta.SetDefault("Taxonomies", map[string]string{"tag": "tags", "category": "categories", "ingredient": "ingredients"})
-	receta.SetConfigName(reqIn.Recipe)
+	receta.SetConfigName(r_receta)
 	err = receta.ReadInConfig() // Find and read the config file
 	if err != nil {             // Handle errors reading the config file
 		panic(fmt.Errorf("Fatal error receta file: %s \n", err))
@@ -66,12 +64,12 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 			}
 			unidad, cantidad = simplify(
 				receta.GetString(fmt.Sprintf("ingredients.%s.unit", ingredient)),
-				q*float64(reqIn.Quantity))
+				q*float64(rCantidad))
 		} else if receta.IsSet(fmt.Sprintf("ingredients.%s.portions", ingredient)) {
 			unidad = "portions"
-			cantidad = receta.GetFloat64(fmt.Sprintf("ingredients.%s.portions", ingredient)) * float64(reqIn.Quantity)
+			cantidad = receta.GetFloat64(fmt.Sprintf("ingredients.%s.portions", ingredient)) * float64(rCantidad)
 		} else if receta.IsSet(fmt.Sprintf("ingredients.%s.quantity", ingredient)) {
-			cantidad = receta.GetFloat64(fmt.Sprintf("ingredients.%s.quantity", ingredient)) * float64(reqIn.Quantity)
+			cantidad = receta.GetFloat64(fmt.Sprintf("ingredients.%s.quantity", ingredient)) * float64(rCantidad)
 		}
 
 		if receta.IsSet(fmt.Sprintf("ingredients.%s.size", ingredient)) {
