@@ -15,5 +15,4 @@ functions:
     lang: golang-middleware
     handler: ./human-diets
     image: sriveros95/human-diets:latest
-    build_options:
-    - GO111MODULE: on
+    GO111MODULE: on
