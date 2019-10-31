@@ -26,7 +26,7 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 	fdb.SetConfigName("index") // name of config file (without extension)
 	err = fdb.ReadInConfig()   // Find and read the config file
 	if err != nil {            // Handle errors reading the config file
-		panic(fmt.Errorf("Fatal error recipe index file: %s \n", err))
+		r.Header.Add("woopsydoopsy", `Fatal error recipe index`)
 	}
 	recetas := fdb.GetStringSlice("recipes")
 	for _, receta := range recetas {
@@ -41,7 +41,9 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 	receta.SetConfigName(r_receta)
 	err = receta.ReadInConfig() // Find and read the config file
 	if err != nil {             // Handle errors reading the config file
-		panic(fmt.Errorf("Fatal error receta file: %s \n", err))
+		r.Header.Add("woopsydoopsy", `Fatal error receta file`)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 	fmt.Println(receta.Get("name"))
 
