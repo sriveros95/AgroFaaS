@@ -16,6 +16,11 @@
         {
             "name": "Corn",
             "portions": 0.5
+        },
+        {
+            "name": "Brewed Coffee",
+            "unit": "cup",
+            "size": "medium"
         }
     ],
     "portions": 1

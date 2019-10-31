@@ -12,7 +12,7 @@ import (
 func Handle(w http.ResponseWriter, r *http.Request) {
 	var input []byte
 
-	farmingData := FarmingData
+	farmingData := FarmingData{}
 
 	if r.Body != nil {
 		defer r.Body.Close()
@@ -43,7 +43,7 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 
 	decoder := json.NewDecoder(resp.Body)
 
-	moonData := MoonData
+	moonData := MoonData{}
 	err = decoder.Decode(&moonData)
 
 	if err != nil {

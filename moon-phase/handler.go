@@ -15,7 +15,7 @@ import (
 func Handle(w http.ResponseWriter, r *http.Request) {
 	var input []byte
 
-	moonData := MoonData
+	moonData := MoonData{}
 
 	if r.Body != nil {
 		defer r.Body.Close()

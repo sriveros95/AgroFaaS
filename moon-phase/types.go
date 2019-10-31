@@ -3,7 +3,7 @@ package function
 import "time"
 
 // MoonData json response
-var MoonData struct {
+type MoonData struct {
 	Date  time.Time `json:"date"`
 	Text  string    `json:"text"`
 	Code  string    `json:"code"`
